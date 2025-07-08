@@ -38,7 +38,7 @@ pipeline {
                 withSonarQubeEnv("${SONARQUBE_SERVER}") {
                     withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                        bat """
-                            mvn clean compile sonar:sonar.bat \
+                            mvn clean compile sonar:sonar \
                               -Dsonar.projectKey=SonarJavaDemo \
                               -Dsonar.projectName='SonarJavaDemo' \
                               -Dsonar.host.url=http://localhost:9000 \

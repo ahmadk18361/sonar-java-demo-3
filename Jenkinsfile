@@ -39,10 +39,10 @@ pipeline {
                     withCredentials([string(credentialsId: '2ndsonar', variable: 'SONAR_TOKEN')]) {
                        bat """
                            mvn clean verify sonar:sonar \
-                          -Dsonar.projectKey=Sonar-cves \
-                          -Dsonar.projectName='Sonar-cve's' \
-                          -Dsonar.host.url=http://localhost:9000 \
-                          -Dsonar.token=%SONAR_TOKEN%
+                              -Dsonar.projectKey=Sonar-cve-s \
+                              -Dsonar.projectName='Sonar-cve's' \
+                              -Dsonar.host.url=http://localhost:9000 \
+                              -Dsonar.token=sqa_f185c86f9cfcdf5600835234e95de3b879833346
                             """
                     }
                 }

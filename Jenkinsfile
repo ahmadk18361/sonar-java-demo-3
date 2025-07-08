@@ -23,12 +23,6 @@ pipeline {
             }
         }
 
-        stage('Fix SQL Injection') {
-            steps {
-                bat 'python fix_sql_injection.py'
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn clean package'

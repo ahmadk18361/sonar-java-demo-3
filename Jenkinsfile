@@ -13,13 +13,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/ahmadk18361/sonar-java-demo.git'
+                git 'https://github.com/ahmadk18361/sonar-java-demo-3.git'
             }
         }
         
         stage('Remediate Vulnerabilities') {
             steps {
-                bat 'python fix_hardcoded_credentials.py'
+                bat 'remediation_cve_2020_9488.py'
             }
         }
 

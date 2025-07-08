@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        SONARQUBE_SERVER = 'SonarCloud' // Must match Jenkins config name exactly
+        SONARQUBE_SERVER = 'Sonar-cve's' // Must match Jenkins config name exactly
     }
 
     stages {
@@ -42,7 +42,7 @@ pipeline {
                               -Dsonar.projectKey=Sonar-cve-s \
                               -Dsonar.projectName='Sonar-cve's' \
                               -Dsonar.host.url=http://localhost:9000 \
-                              -Dsonar.token=sqa_f185c86f9cfcdf5600835234e95de3b879833346
+                              -Dsonar.token=%SONAR_TOKEN%
                             """
                     }
                 }

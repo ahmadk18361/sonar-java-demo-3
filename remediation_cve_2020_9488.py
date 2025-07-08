@@ -1,6 +1,6 @@
 import re
 
-with open("Log4jCVE2020_9488Example.java", "r") as file:
+with open("src/main/java/com/example/Log4jCVE2020_9488Example.java", "r") as file:
     code = file.read()
 
 # Comment out or remove the vulnerable setting

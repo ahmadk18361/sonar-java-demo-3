@@ -37,6 +37,7 @@ pipeline {
             steps {
                 withSonarQubeEnv("${Sonar-cve-s}") {
                     withCredentials([string(credentialsId: '2ndsonar', variable: 'SONAR_TOKEN')]) {
+                         bat 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
                          bat 'echo Sonar token: %SONAR_TOKEN'
                        bat """
                            mvn clean verify sonar:sonar \

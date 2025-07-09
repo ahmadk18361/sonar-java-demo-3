@@ -43,7 +43,8 @@ pipeline {
                               -Dsonar.projectKey=Sonar-cve-s \
                               -Dsonar.projectName='Sonar-cve's' \
                               -Dsonar.host.url=http://localhost:9000 \
-                              -Dsonar.token=%SONAR_TOKEN%
+                              -Dsonar.token=sqp_b08b8163f360aa6cb24534b5c579de0a58f6211f
+
                             """
                     }
                 }

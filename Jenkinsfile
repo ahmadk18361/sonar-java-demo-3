@@ -31,7 +31,12 @@ pipeline {
             }
         }
 
-       
+        stage( 'Buildwith Maven')
+            steps {
+                bat 'mvn clean packages'
+            }
+    }
+        
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv("${Sonar-cve-s}") {

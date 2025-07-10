@@ -23,6 +23,14 @@ pipeline {
             }
         }
 
+        stage ('Debug Sonar Token') {
+            steps {
+                withCredentials([string(credentialsId: '2ndsonar', variable: 'SONAR_TOKEN')]) {
+                    bat 'echo Debug: token is %SONAR_TOKEN%'
+                }
+            }
+        }
+
        stage('Build') {
             steps {
                 bat 'mvn clean package'

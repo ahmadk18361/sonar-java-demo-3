@@ -49,9 +49,10 @@ pipeline {
                          bat 'echo Sonar token: %SONAR_TOKEN'
                        bat """
                            mvn clean verify sonar:sonar \
-                              -Dsonar.projectKey=fix2-scan \
+                              -Dsonar.projectKey=sonar-cve-fix2 \
                               -Dsonar.projectName='Sonar-cve's' \
                               -Dsonar.host.url=http://localhost:9000 \
+                              -Dsonar.sources=src/main/java/com/example
                               -Dsonar.token=sqp_b08b8163f360aa6cb24534b5c579de0a58f6211f
 
                             """

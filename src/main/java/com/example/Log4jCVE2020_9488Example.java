@@ -1,5 +1,4 @@
 import org.apache.log4j.Logger;
-import java.util.logging.Logger;
 
 public class Log4jCVE2020_9488Example {
     static Logger logger = Logger.getLogger(Log4jCVE2020_9488Example.class);

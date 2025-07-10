@@ -31,16 +31,7 @@ pipeline {
             }
         }
 
-       stage('Build') {
-            steps {
-                bat 'mvn clean package'
-                bat 'git config --global user.email "jenkins@example.com"'
-                bat 'git config --global user.name "Jenkins"'
-                bat 'git add .'
-                bat 'git commit -m "Apply automatic fix to hardcoded credentials" || exit 0'
-                    }
-        }
-
+       
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv("${Sonar-cve-s}") {

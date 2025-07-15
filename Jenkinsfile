@@ -10,21 +10,34 @@ pipeline {
         SONARQUBE_SERVER = 'Sonar-cve's' // Must match Jenkins config name exactly
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/ahmadk18361/sonar-java-demo-3.git'
-            }
+    stage('Checkout') {
+          steps {
+            checkout([$class: 'GitSCM',
+              branches: [[name: '*/main']],
+              userRemoteConfigs: [[url: 'https://github.com/ahmadk18361/sonar-java-demo-3.git']],
+              extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0]]
+            ])
+          }
         }
         
-        stage('Remediate Vulnerabilities') {
-            steps {
-                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jBufferedInputExample.java'
-                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCVE2020_9488Example.java'
-                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCmdArgsExample.java'
+    stage('Remediate Vulnerabilities') {
+        steps {
+            bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jBufferedInputExample.java'
+            bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCVE2020_9488Example.java'
+            bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCmdArgsExample.java'
             }
         }
 
+     stage('Git Commit Remediated Files') {
+        steps {
+            dir('project2') {
+                bat 'git config --global user.email "scanner@example.com"'
+                bat 'git config --global user.name "CVE Scanner Bot"'
+                bat 'git add src/main/java/com/example/'
+                bat 'git commit -m "Committing all remediated CVE Java files" || echo "Nothing to commit"'
+            }
+        }
+     }
      
         stage ('Debug Sonar Token') {
             steps {
@@ -38,7 +51,7 @@ pipeline {
             steps {
                 bat 'mvn clean packages'
             }
-    }
+        
         
         stage('SonarQube Scan') {
             steps {
@@ -59,4 +72,5 @@ pipeline {
             }
         }
     }
-}
+
+

@@ -2,7 +2,7 @@ import os
 import re
 
 # Root directory to recursively scan
-SOURCE_DIR = 'src/main/java'
+SOURCE_DIR = 'src/main/java/com/example'
 
 # Matches logger lines with concatenated user input
 VULNERABLE_LOG_PATTERN = re.compile(r'logger\.(info|warn|error|debug)\s*\(\s*"(.*?)"\s*\+\s*(.*?)\s*\)\s*;')

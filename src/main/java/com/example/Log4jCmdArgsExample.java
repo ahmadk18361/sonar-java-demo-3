@@ -5,8 +5,8 @@ public class Log4jCmdArgsExample {
 
     public static void main(String[] args) {
         if (args.length > 0) {
-            String username = args[0];  // ⚠️ Untrusted input
-            logger.info("Attempted access by: " + username);  // ⚠️ Unsafe if input includes JNDI injection
+            String username = args[0];  //  Untrusted input
+            logger.info("Attempted access by: " + username);  //  Unsafe if input includes JNDI injection
         }
     }
 }

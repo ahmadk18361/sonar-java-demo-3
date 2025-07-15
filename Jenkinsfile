@@ -19,7 +19,9 @@ pipeline {
         
         stage('Remediate Vulnerabilities') {
             steps {
-                bat 'remediation_cve_2020_9488.py'
+                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jBufferedInputExample.java'
+                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCVE2020_9488Example.java'
+                bat 'remediation_cve_2020_9488.py src/main/java/com/example/Log4jCmdArgsExample.java'
             }
         }
 

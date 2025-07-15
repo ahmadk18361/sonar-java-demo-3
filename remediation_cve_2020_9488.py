@@ -1,30 +1,26 @@
 import os
 import re
 
-# Path to recursively scan
 SOURCE_DIR = 'src/main/java/com/example'
 
-# Regex pattern to catch logger statements with string concatenation
-# Supports .info, .warn, .error, .debug etc.
-LOG_PATTERN = re.compile(r'(logger\.(info|warn|error|debug))\s*\(\s*"([^"]*?)"\s*\+\s*([\w\.]+)\s*\)', re.IGNORECASE)
+# Match logger.warn/error/info("... " + variable);
+LOG_PATTERN = re.compile(r'(logger\.(warn|info|error))\("([^"]*?)"\s*\+\s*([a-zA-Z0-9_]+)\);')
 
 def remediate_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
-    modified = False
     new_lines = []
+    modified = False
 
     for line in lines:
         match = LOG_PATTERN.search(line)
         if match:
             full_call = match.group(1)
-            level = match.group(2)
-            message_prefix = match.group(3)
-            variable = match.group(4)
-
-            # Construct the safe logger call
-            safe_line = f'{full_call}("{message_prefix} {{}}", new Object[]{{{variable}}});\n'
+            message_prefix = match.group(3).strip()
+            variable = match.group(4).strip()
+            # Safe concatenation
+            safe_line = f'{full_call}("{message_prefix} " + String.valueOf({variable}));\n'
             new_lines.append(safe_line)
             modified = True
         else:
@@ -35,7 +31,7 @@ def remediate_file(file_path):
             file.writelines(new_lines)
         print(f"[OK] Remediated: {file_path}")
     else:
-        print(f"[SORRY ] No issues found: {file_path}")
+        print(f"[SKIP] No match in: {file_path}")
 
 def run_remediation():
     for root, _, files in os.walk(SOURCE_DIR):

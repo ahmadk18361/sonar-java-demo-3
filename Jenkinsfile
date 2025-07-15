@@ -25,6 +25,17 @@ pipeline {
             }
         }
 
+        stage('Git Commit Remediated Files') {
+            steps {
+                dir('project2') {
+                    bat 'git config --global user.email "scanner@example.com"'
+                    bat 'git config --global user.name "CVE Scanner Bot"'
+                    bat 'git add src/main/java/com/example/'
+                    bat 'git commit -m "Committing all remediated CVE Java files" || echo "Nothing to commit"'
+                }
+            }
+        }
+
         stage ('Debug Sonar Token') {
             steps {
                 withCredentials([string(credentialsId: '2ndsonar', variable: 'SONAR_TOKEN')]) {

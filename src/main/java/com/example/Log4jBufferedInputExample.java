@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import org.apache.log4j.Logger;
 
 public class Log4jBufferedInputExample {

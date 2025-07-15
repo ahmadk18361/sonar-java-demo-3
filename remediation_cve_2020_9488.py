@@ -1,16 +1,12 @@
 import os
 import re
 
+# Path to recursively scan
 SOURCE_DIR = 'src/main/java/com/example'
 
-VULNERABLE_LOG_PATTERN = re.compile(
-    r'logger\.(info|warn|error|debug)\s*\(\s*"(.*?)\{\}"\s*,\s*(.*?)\s*\)'
-)
-
-def needs_cast(variable):
-    variable = variable.strip()
-    # If it's a quoted string or a method call returning string, cast it
-    return variable.startswith('"') or variable.endswith('"') or '.' in variable
+# Regex pattern to catch logger statements with string concatenation
+# Supports .info, .warn, .error, .debug etc.
+LOG_PATTERN = re.compile(r'(logger\.(info|warn|error|debug))\s*\(\s*"([^"]*?)"\s*\+\s*([\w\.]+)\s*\)', re.IGNORECASE)
 
 def remediate_file(file_path):
     with open(file_path, 'r') as file:
@@ -20,17 +16,15 @@ def remediate_file(file_path):
     new_lines = []
 
     for line in lines:
-        match = VULNERABLE_LOG_PATTERN.search(line)
+        match = LOG_PATTERN.search(line)
         if match:
-            level = match.group(1)
-            message_prefix = match.group(2)
-            variable = match.group(3).strip()
+            full_call = match.group(1)
+            level = match.group(2)
+            message_prefix = match.group(3)
+            variable = match.group(4)
 
-            # Add (Object) cast to avoid overload confusion
-            if needs_cast(variable):
-                variable = f'(Object) {variable}'
-
-            safe_line = f'logger.{level}("{message_prefix}{{}}", {variable});\n'
+            # Construct the safe logger call
+            safe_line = f'{full_call}("{message_prefix} {{}}", (Object) {variable});\n'
             new_lines.append(safe_line)
             modified = True
         else:
@@ -41,14 +35,14 @@ def remediate_file(file_path):
             file.writelines(new_lines)
         print(f"[OK] Remediated: {file_path}")
     else:
-        print(f"[SKIPPED] No change needed: {file_path}")
+        print(f"[SORRY ] No issues found: {file_path}")
 
 def run_remediation():
     for root, _, files in os.walk(SOURCE_DIR):
         for filename in files:
-            if filename.endswith(".java"):
+            if filename.endswith('.java'):
                 filepath = os.path.join(root, filename)
                 remediate_file(filepath)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     run_remediation()

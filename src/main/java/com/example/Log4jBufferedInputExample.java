@@ -8,7 +8,7 @@ public class Log4jBufferedInputExample {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter username: ");
         String username = reader.readLine();  //  User-controlled input
-        logger.warn("User login failed: " + username);  //  Dangerous logging
+        logger.warn("User login failed: " + String.valueOf(username));  //  Dangerous logging
     }
 }
 

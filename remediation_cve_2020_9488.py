@@ -24,7 +24,7 @@ def remediate_file(file_path):
             variable = match.group(4)
 
             # Construct the safe logger call
-            safe_line = f'{full_call}("{message_prefix} {{}}", (Object) {variable});\n'
+            safe_line = f'{full_call}("{message_prefix} {{}}", {variable});\n'
             new_lines.append(safe_line)
             modified = True
         else:

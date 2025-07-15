@@ -9,6 +9,6 @@ public class Log4jBufferedInputExample {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         System.out.print("Enter username: ");
         String username = reader.readLine();
-        logger.warn("User login failed: " + String.valueOf(username));
+        logger.warn("User login failed: " + username);
     }
 }
